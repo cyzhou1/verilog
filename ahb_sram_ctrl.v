@@ -1,3 +1,4 @@
+//THIS FILE IS FIXED
 module ahb_sram_ctrl (
 //AHB side
   input                         hclk,
@@ -27,7 +28,7 @@ module ahb_sram_ctrl (
   output             [3:0]      sram_bank0_sel,  //sram0 to 3 is bank zero
   output             [3:0]      sram_bank1_sel   //sram4 to 7 is bank one
 );
-
+//this IS fIXED
 //AHB BUS Tranfer state defination
 parameter IDLE     = 2'b00;
 parameter BUSY     = 2'b01;
