@@ -1,39 +1,38 @@
-module dds_sincos_gen #
+module dds_sincos_gen #(
   parameter ROM_AW    = 8,
   parameter ROM_DW    = 8,
   parameter ROM_DEP   = (1 ** ROM_AW)
 ) (
-  input                clk,
-  input                rst_n,
-  input                ce,
-  input  [3:0]         kin, 
-  output [ROM_DW:0]    sin_data,
-  output [ROM_DW:0]    cos_data
+  input                  clk,
+  input                  rst_n,
+  input                  ce,
+  input  [ROM_AW-1:0]    kin, 
+  output [ROM_DW-1:0]    sin_data,
+  output [ROM_DW-1:0]    cos_data
 );
 
 //=======================================================================
 //SIN BASE ADDRESS & COS BASE ADDRESS
 //=======================================================================
-parameter SIN_BASE_ADDR = 0;
 parameter COS_BASE_ADDR = (ROM_DEP >> 2);
 
-wire  [3:0]          kin_r;
-wire  [3:0]          step;
-wire  [ROM_AW:0]     phrs_cnt;
-wire  [ROM_AW:0]     phrs_cnt_nxt;
-wire  [ROM_AW:0]     sin_addr;
-wire  [ROM_AW:0]     cos_addr;
-wire  [ROM_DW:0]     sin_data_o;
-wire  [ROM_DW:0]     cos_data_o;     
+wire  [ROM_AW-1:0]     kin_r;
+wire  [ROM_AW-1:0]     step;
+wire  [ROM_AW-1:0]     phrs_cnt;
+wire  [ROM_AW-1:0]     phrs_cnt_nxt;
+wire  [ROM_AW-1:0]     sin_addr;
+wire  [ROM_AW-1:0]     cos_addr;
+wire  [ROM_DW-1:0]     sin_data_o;
+wire  [ROM_DW-1:0]     cos_data_o;     
 
 //asyn input should be registered
-dfflr #(4) freq_sync (clk, rst_n, ce, kin, kin_r);
+dfflr #(ROM_AW) freq_sync (clk, rst_n, ce, kin, kin_r);
 
 //=========================================================================
 //PHREASE COUNTER
 //=========================================================================
 assign step         = kin_r;
-assign phrs_cnt_nxt = phrs_cnt + {(ROM_AW-4){1'b0}, step};
+assign phrs_cnt_nxt = phrs_cnt + step;
 
 dfflr #(ROM_AW) phrs_gen (clk, rst_n, ce, phrs_cnt_nxt, phrs_cnt);
 
