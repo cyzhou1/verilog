@@ -1,5 +1,5 @@
 module add_sub #(
-  DW = 16
+  parameter DW = 16
 ) (
   input       [DW-1:0] ain,
   input       [DW-1:0] bin,
@@ -13,8 +13,8 @@ wire [DW-2:0] cout_e;
 wire          cout_msb;
 wire [DW-2:0] cout_rest;
 
-assign ain_e = ain[DW-1] ? (~ain([DW-2:0] + 'b1) : ain[DW-2:0];
-assign bin_e = bin[DW-1] ^ sel ? (~bin[DW-2:0] + 'b1) : bin[DW-2:0];
+assign ain_e = ain[DW-1] ? (~ain[DW-2:0] + 'b1) : ain[DW-2:0];
+assign bin_e = (bin[DW-1] ^ sel) ? (~bin[DW-2:0] + 'b1) : bin[DW-2:0];
 
 assign cout_e = ain_e + bin_e;
 

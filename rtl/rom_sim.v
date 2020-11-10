@@ -1,10 +1,10 @@
 module rom_sim # (
-  DW     = 16,
-  AW     = 8,
-  DEP    = 2 ** AW
+  parameter DW     = 16,
+  parameter AW     = 8,
+  parameter DEP    = 2 ** AW
 ) (
   input                          clk,
-  input                          ce,
+  input                          ce_n,
   input     [AW-1:0]             addr,
   output    [DW-1:0]             data
 );

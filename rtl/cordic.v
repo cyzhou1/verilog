@@ -1,6 +1,6 @@
 //cordic core support for cos, sin, arctan
 module cordic #(
-  parameter DW = 16
+  parameter DW = 16,
   parameter SW = 3
 ) (
   input                  clk,
@@ -23,11 +23,14 @@ wire [DW-1:0] z_r;
 wire [DW-1:0] x_nxt;
 wire [DW-1:0] y_nxt;
 wire [DW-1:0] z_nxt;
-
+wire [DW-1:0] x_t;
+wire [DW-1:0] y_t;
+wire [DW-1:0] z_t;
 //for the first stage, primitive input x, y, z should be selected
-assign x_nxt = enable ? x_i : x_o;
-assign y_nxt = enable ? y_i : y_o;
-assign z_nxt = enable ? z_i : z_o;
+assign x_nxt = enable ? x_i : x_t;
+assign y_nxt = enable ? y_i : y_t;
+assign z_nxt = enable ? z_i : z_t;
+
 
 //register
 dffr #(
@@ -60,11 +63,12 @@ dffr #(
 //======================================================
 //SHIFT ADD_SUB OP
 //======================================================
+
 wire [DW-1:0] x_shift = x_r >> shift_i;
 wire [DW-1:0] y_shift = y_r >> shift_i;
 
-wire add_sub_sel = (mode == 1'b0) ? z_r[DW];  //for rotation mode, add_sub_sel = sign(z)
-                                  : ~z_r[DW]; //for vector mode, add_sub_sel = -sign(z)
+wire add_sub_sel = (mode == 1'b0) ? z_r[DW-1] //for rotation mode, add_sub_sel = sign(z)
+                                  : ~z_r[DW-1]; //for vector mode, add_sub_sel = -sign(z)
 
 add_sub #(
   .DW (DW)
@@ -72,7 +76,7 @@ add_sub #(
   .ain   (x_r         ),
   .bin   (y_shift     ),
   .sel   (add_sub_sel ),
-  .cout  (x_o         )
+  .cout  (x_t         )
 );
 
 add_sub #(
@@ -81,7 +85,7 @@ add_sub #(
   .ain   (y_r         ),
   .bin   (x_shift     ),
   .sel   (add_sub_sel ),
-  .cout  (y_o         )
+  .cout  (y_t         )
 );
 
 add_sub #(
@@ -90,7 +94,10 @@ add_sub #(
   .ain   (z_r         ),
   .bin   (angle_i     ),
   .sel   (add_sub_sel ),
-  .cout  (z_o         )
+  .cout  (z_t         )
 );
 
+assign x_o = x_t;
+assign y_o = y_t;
+assign z_o = z_t;
 endmodule

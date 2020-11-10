@@ -1,0 +1,18 @@
+Command Line: C:\Novas\nLint2.2v24\bin\nLint.exe -verilog -2001 -gui -f rtl.list
+nLint - A HDL Design Rule Checker, Release 2.2v24 (Win95/NT) 02/06/2005
+Copyright (C) 1996 - 2005 by Novas Software, Inc.
+nLint initializing product... 
+-verilog
+-2001
+-gui
+udrCompiler:Begin Check prj.....
+
+udrCompiler:Prj Checker:Total 0 error(s) 0 warning(s)
+
+udrCompiler:End Check prj
+
+nLint loading rules ... 
+  Load RS file C:\Novas\nLint2.2v24\etc\nLint.rs
+nLint loading rules done!
+nLint initializing product done!
+au time 16 0.0 0.0 delta 26797488 26107904 total 27820032 27820032
