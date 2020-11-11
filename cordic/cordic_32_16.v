@@ -72,7 +72,7 @@ cordic_s #(32, 1, 486170) cordic_2s  (clk, rst_n, mode, x_1, y_1, z_1, x_2, y_2,
 cordic_s #(32, 2, 256879) cordic_3s  (clk, rst_n, mode, x_2, y_2, z_2, x_3, y_3, z_3);
 
 //fourth stage
-cordic_s #(32, 3. 130396) cordic_4s  (clk, rst_n, mode, x_3, y_3, z_3, x_4, y_4, z_4);
+cordic_s #(32, 3, 130396) cordic_4s  (clk, rst_n, mode, x_3, y_3, z_3, x_4, y_4, z_4);
 
 //fifth stage
 cordic_s #(32, 4, 65451 ) cordic_5s  (clk, rst_n, mode, x_4, y_4, z_4, x_5, y_5, z_5);
@@ -102,13 +102,13 @@ cordic_s #(32, 11, 512  ) cordic_12s (clk, rst_n, mode, x_11, y_11, z_11, x_12, 
 cordic_s #(32, 12, 256  ) cordic_13s (clk, rst_n, mode, x_12, y_12, z_12, x_13, y_13, z_13);
 
 //forteenth stage
-cordic_s #(31, 13, 128  ) cordic_14s (clk, rst_n, mode, x_13, y_13, z_13, x_14, y_14, z_14);
+cordic_s #(32, 13, 128  ) cordic_14s (clk, rst_n, mode, x_13, y_13, z_13, x_14, y_14, z_14);
 
 //fifteenth stage
-cordic_s #(31, 14, 64   ) cordic_15s (clk, rst_n, mode, x_14, y_14, z_14, x_15, y_15, z_15);
+cordic_s #(32, 14, 64   ) cordic_15s (clk, rst_n, mode, x_14, y_14, z_14, x_15, y_15, z_15);
 
 //sixteenth stage
-cordic_s #(31, 15, 33   ) cordic_16s (clk, rst_n, mode, x_15, y_15, z_15, x_16, y_16, z_16); 
+cordic_s #(32, 15, 33   ) cordic_16s (clk, rst_n, mode, x_15, y_15, z_15, x_16, y_16, z_16); 
 
 
 assign x_o = x_16;

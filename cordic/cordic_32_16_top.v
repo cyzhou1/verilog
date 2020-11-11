@@ -35,7 +35,7 @@ always @(*) begin
   endcase
 end
 
-wire state_is_idle  = state_r == IDLE;
+//wire state_is_idle  = state_r == IDLE;
 wire state_is_init  = state_r == INIT;
 wire state_is_divld = state_r == DIVLD;
 wire state_is_dvld  = state_r == DVLD;
@@ -54,12 +54,12 @@ assign x_nxt = (mode[1] == 1'b0) ? K_VECTOR : INT_ONE;
 assign y_nxt = (mode[1] == 1'b0) ? 32'b0 : din;
 assign z_nxt = (mode[1] == 1'b0) ? din : 32'b0;
 
-wire               i_en = state_is_init && state_divld && state_dvld;
+wire               i_en = state_is_init && state_is_divld && state_is_dvld;
 //wire               o_en = state_is_dvld;
 
-dfflr (32) x_init_dff (32) (clk, rst_n, i_en, x_nxt, x_i);
-dfflr (32) y_init_dff (32) (clk, rst_n, i_en, y_nxt, y_i);
-dfflr (32) z_init_dff (32) (clk, rst_n, i_en, z_nxt, z_i);
+dfflr #(32) x_init_dff (clk, rst_n, i_en, x_nxt, x_i);
+dfflr #(32) y_init_dff (clk, rst_n, i_en, y_nxt, y_i);
+dfflr #(32) z_init_dff (clk, rst_n, i_en, z_nxt, z_i);
 
 //=====================================================================
 //Pipeline counter to indicate the pip is over
@@ -67,11 +67,10 @@ dfflr (32) z_init_dff (32) (clk, rst_n, i_en, z_nxt, z_i);
 wire   [3:0] pip_cnt;
 wire   [3:0] pip_cnt_nxt;
 wire         pip_en;
-wire         pip_done;
 
 assign pip_en = state_is_divld;
 assign pip_done = pip_cnt == 4'd15;
-assign pip_cnt_nxt = (pip_cnt == 4'd15) ? 4'd0 ? pip_cnt + 4'd1;
+assign pip_cnt_nxt = (pip_cnt == 4'd15) ? 4'd0 : pip_cnt + 4'd1;
 
 dfflr #(4) pip_dff (clk, rst_n, pip_en, pip_cnt_nxt, pip_cnt);
 
@@ -112,5 +111,4 @@ cordic_32_16 (
   .z_o       (z_o       )
 );
 
-endmodule
 endmodule
