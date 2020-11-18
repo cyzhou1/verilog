@@ -29,7 +29,7 @@ wire   [255:0]  aligned_din;
 wire   [255:0]  storage_mux_1;
 
 assign shift_width   = {2'b0, holding[4:0]} << 2;
-assign aligned_din   = (holing == 6'd32) ? {din, 128'd0} : ({128'd0, din} << shift_width);
+assign aligned_din   = (holding == 6'd32) ? {din, 128'd0} : ({128'd0, din} << shift_width);
 assign storage_mux_1 = holding[5] ? storage : (storage >> 128); 
 assign storage_nxt   = storage_mux_1 | aligned_din;
 
@@ -45,7 +45,6 @@ wire [131:0] data_reverse = storage[131:0];
 wire [131:0] data_out;
 
 genvar i;
-generate 
   for(i=0; i<132; i=i+1) begin : loop
     assign data_out[i] = data_reverse[131-i];
   end
