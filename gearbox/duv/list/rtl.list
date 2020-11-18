@@ -1,0 +1,7 @@
+$PRJ_PATH/duv/rtl/dfflr.v
+$PRJ_PATH/duv/rtl/dffr.v
+$PRJ_PATH/duv/rtl/DPRAM.v
+$PRJ_PATH/duv/rtl/GRAY_CNT.v
+$PRJ_PATH/duv/rtl/ASYN_FIFO.v
+$PRJ_PATH/duv/rtl/gearbox_132_128.v
+$PRJ_PATH/duv/rtl/asyn_gearbox_top.v
