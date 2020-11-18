@@ -15,17 +15,17 @@ module asyn_gearbox (
 //FIFO READ SIDE CTRL
 //==========================================================================
 wire   [4:0] ctrl_cnt;
-wire         ctrl_cnt_nxt;
+wire   [4:0] ctrl_cnt_nxt;
 wire         ctrl_en;
 wire         ctrl_clr;
 wire         stop_read;
 
-assign ctrl_en = i_red;
+assign ctrl_en = i_ren;
 assign ctrl_clr = ctrl_cnt == 5'd31;
-assign ctrl_cnt_nxt = ctrl_clr ? 5'd0 : ctrl_cnt + 'd1;
+assign ctrl_cnt_nxt = ctrl_clr ? 5'd0 : (ctrl_cnt + 'd1);
 assign stop_read = ctrl_clr;
 
-dfflr #(5) (clk, i_rst_n, ctrl_en, ctrl_cnt_nxt, ctrl_cnt);
+dfflr #(5) ctrl_cnt_5 (clk, i_rst_n, ctrl_en, ctrl_cnt_nxt, ctrl_cnt);
 
 //===========================================================================
 //FIFO signals
@@ -70,7 +70,7 @@ ASYN_FIFO #(
 wire     [131:0] din;
 wire             din_valid;
 wire             din_ready;
-wire             dout_ready
+wire             dout_ready;
 wire     [127:0] dout;
 wire             dout_valid;
 
@@ -80,7 +80,7 @@ assign dout_ready = rd_en;
 dffr #(1) din_vld_1 (i_rclk, i_rst_n, rd_en, din_valid);
 
 //gearbox instance
-gearbox_132_128 (
+gearbox_132_128 x_gearbox(
   .clk          (i_rclk        ),
   .rst_n        (i_rst_n       ),
   .din          (din           ),
